@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>_metadata</key>
+    <dict>
+        <key>created_by</key>
+        <string>slagraviere</string>
+        <key>creation_date</key>
+        <date>2019-10-08T08:10:19Z</date>
+        <key>munki_version</key>
+        <string>2.5.1.2627</string>
+        <key>os_version</key>
+        <string>10.11.3</string>
+    </dict>
+    <key>autoremove</key>
+    <false/>
+    <key>catalogs</key>
+    <array>
+        <string>base</string>
+    </array>
+    <key>description</key>
+    <string>Ignore macOS Catalina update</string>
+    <key>developer</key>
+    <string>SLG</string>
+    <key>display_name</key>
+    <string>No Catalina Update</string>
+    <key>installcheck_script</key>
+    <string>#!/bin/bash
+ignore=$(/usr/sbin/softwareupdate --ignore | grep "macOS Catalina" | wc -l | bc)
+if [ "$ignore" == 1 ]; then
+# Catalina already ignored
+    exit 1
+fi
+exit 0</string>
+    <key>installer_type</key>
+    <string>nopkg</string>
+    <key>minimum_os_version</key>
+    <string>10.11</string>
+    <key>name</key>
+    <string>ignore_catalina</string>
+    <key>postinstall_script</key>
+    <string>#!/bin/bash
+/usr/sbin/softwareupdate --ignore "macOS Catalina"
+exit 0
+</string>
+    <key>unattended_install</key>
+    <true/>
+    <key>uninstall_method</key>
+    <string>uninstall_script</string>
+    <key>uninstall_script</key>
+    <string>/usr/sbin/softwareupdate --reset-ignored
+exit 0</string>
+    <key>version</key>
+    <string>1.1</string>
+</dict>
+</plist>
